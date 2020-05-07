@@ -9,7 +9,8 @@ export default function Moveable(opt) {
         options: Object.assign({
             lock: null,
             onchange: () => 0,
-            onstop: () => 0
+            onstop: () => 0,
+            document: document
         }, opt),
 
         _keyboard(e) {
@@ -18,7 +19,7 @@ export default function Moveable(opt) {
 
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // For improved accessibility
-            if (document.activeElement === options.wrapper) {
+            if (that.options.document.activeElement === options.wrapper) {
                 const {lock} = that.options;
                 const up = key === 'ArrowUp';
                 const right = key === 'ArrowRight';
@@ -51,8 +52,8 @@ export default function Moveable(opt) {
         },
 
         _tapstart(evt) {
-            _.on(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
-            _.on(document, ['mousemove', 'touchmove'], that._tapmove);
+            _.on(that.options.document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
+            _.on(that.options.document, ['mousemove', 'touchmove'], that._tapmove);
 
             // Prevent default touch event
             evt.preventDefault();
@@ -116,8 +117,8 @@ export default function Moveable(opt) {
 
         _tapstop() {
             that.options.onstop();
-            _.off(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
-            _.off(document, ['mousemove', 'touchmove'], that._tapmove);
+            _.off(that.options.document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
+            _.off(that.options.document, ['mousemove', 'touchmove'], that._tapmove);
         },
 
         trigger() {
@@ -139,7 +140,7 @@ export default function Moveable(opt) {
 
         destroy() {
             const {options, _tapstart, _keyboard} = that;
-            _.off(document, ['keydown', 'keyup'], _keyboard);
+            _.off(that.options.document, ['keydown', 'keyup'], _keyboard);
             _.off([options.wrapper, options.element], 'mousedown', _tapstart);
             _.off([options.wrapper, options.element], 'touchstart', _tapstart, {
                 passive: false
@@ -154,7 +155,7 @@ export default function Moveable(opt) {
         passive: false
     });
 
-    _.on(document, ['keydown', 'keyup'], _keyboard);
+    _.on(that.options.document, ['keydown', 'keyup'], _keyboard);
 
     return that;
 }

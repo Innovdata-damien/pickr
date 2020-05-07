@@ -60,7 +60,7 @@ export default instance => {
           </div>
         </div>
       </div>
-    `);
+    `,instance.options.document);
 
     const int = root.interaction;
 

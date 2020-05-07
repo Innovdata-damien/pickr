@@ -46,8 +46,8 @@ export const off = eventListener.bind(null, 'removeEventListener');
  * @param html HTML representing a single element
  * @returns {Element | null} The element.
  */
-export function createElementFromString(html) {
-    const div = document.createElement('div');
+export function createElementFromString(html, doc) {
+    const div = doc.createElement('div');
     div.innerHTML = html.trim();
     return div.firstElementChild;
 }
@@ -67,7 +67,7 @@ export function createElementFromString(html) {
  * @param str - The HTML String.
  */
 
-export function createFromTemplate(str) {
+export function createFromTemplate(str, doc) {
 
     // Removes an attribute from a HTMLElement and returns the value.
     const removeAttribute = (el, name) => {
@@ -101,7 +101,7 @@ export function createFromTemplate(str) {
         return base;
     };
 
-    return resolve(createElementFromString(str));
+    return resolve(createElementFromString(str,doc));
 }
 
 /**
@@ -109,7 +109,7 @@ export function createFromTemplate(str) {
  * @param evt The event object.
  * @return [String] event path.
  */
-export function eventPath(evt) {
+export function eventPath(evt,doc) {
     let path = evt.path || (evt.composedPath && evt.composedPath());
     if (path) {
         return path;
@@ -121,7 +121,7 @@ export function eventPath(evt) {
         path.push(el);
     }
 
-    path.push(document, window);
+    path.push(doc, window);
     return path;
 }
 
@@ -130,14 +130,14 @@ export function eventPath(evt) {
  * @param val
  * @returns {null|Document|Element}
  */
-export function resolveElement(val) {
+export function resolveElement(val, doc) {
     if (val instanceof Element) {
         return val;
     } else if (typeof val === 'string') {
         return val.split(/>>/g).reduce((pv, cv, ci, a) => {
             pv = pv.querySelector(cv);
             return ci < a.length - 1 ? pv.shadowRoot : pv;
-        }, document);
+        }, doc);
     }
 
     return null;

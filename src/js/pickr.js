@@ -88,6 +88,7 @@ class Pickr {
             lockOpacity: false,
             autoReposition: true,
             container: 'body',
+            document: document,
 
             components: {
                 interaction: {}
@@ -184,7 +185,7 @@ class Pickr {
 
         // Resolve elements
         for (const type of ['el', 'container']) {
-            options[type] = _.resolveElement(options[type]);
+            options[type] = _.resolveElement(options[type],options.document);
         }
 
         // Create element and append it to body to
@@ -261,7 +262,7 @@ class Pickr {
             palette: Moveable({
                 element: inst._root.palette.picker,
                 wrapper: inst._root.palette.palette,
-
+                document: this.options.document,
                 onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
                     if (!cs.palette) {
@@ -321,6 +322,7 @@ class Pickr {
                 lock: sh === 'v' ? 'h' : 'v',
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
+                document: this.options.document,
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
@@ -345,6 +347,7 @@ class Pickr {
                 lock: so === 'v' ? 'h' : 'v',
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
+                document: this.options.document,
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
@@ -438,11 +441,11 @@ class Pickr {
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 
                 // Close with escape key
-                _.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
+                _.on(this.options.document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
 
                 // Cancel selecting if the user taps behind the color picker
-                _.on(document, ['touchstart', 'mousedown'], e => {
-                    if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
+                _.on(this.options.document, ['touchstart', 'mousedown'], e => {
+                    if (this.isOpen() && !_.eventPath(e, this.options.document).some(el => el === _root.app || el === _root.button)) {
                         this.hide();
                     }
                 }, {capture: true})
@@ -622,7 +625,8 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`,
+                this.options.document
             );
 
             // Append element and save swatch data
