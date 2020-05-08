@@ -10,7 +10,7 @@ export default function Moveable(opt) {
             lock: null,
             onchange: () => 0,
             onstop: () => 0,
-            document: document
+            document
         }, opt),
 
         _keyboard(e) {

@@ -88,7 +88,7 @@ class Pickr {
             lockOpacity: false,
             autoReposition: true,
             container: 'body',
-            document: document,
+            document,
 
             components: {
                 interaction: {}
