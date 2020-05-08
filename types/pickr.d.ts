@@ -71,6 +71,7 @@ declare namespace Pickr {
         closeWithKey?: string;
         position?: Position;
         adjustableNumbers?: boolean;
+        document?: Document;
 
         components?: {
             palette?: boolean;
