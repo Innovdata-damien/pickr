@@ -72,6 +72,7 @@ declare namespace Pickr {
         position?: Position;
         adjustableNumbers?: boolean;
         document?: Document;
+        elementInstance?: Element;
 
         components?: {
             palette?: boolean;

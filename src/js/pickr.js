@@ -89,6 +89,7 @@ class Pickr {
             autoReposition: true,
             container: 'body',
             document,
+            elementInstance: Element,
 
             components: {
                 interaction: {}
@@ -185,7 +186,7 @@ class Pickr {
 
         // Resolve elements
         for (const type of ['el', 'container']) {
-            options[type] = _.resolveElement(options[type],options.document);
+            options[type] = _.resolveElement(options[type],options.document, options.elementInstance);
         }
 
         // Create element and append it to body to
@@ -221,7 +222,6 @@ class Pickr {
 
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
-
             // Replace element with actual color-picker
             opt.el.parentNode.replaceChild(root.root, opt.el);
         } else if (opt.inline) {

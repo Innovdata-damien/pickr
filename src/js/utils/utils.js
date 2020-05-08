@@ -130,8 +130,8 @@ export function eventPath(evt,doc) {
  * @param val
  * @returns {null|Document|Element}
  */
-export function resolveElement(val, doc) {
-    if (val instanceof Element) {
+export function resolveElement(val, doc, elementInstance) {
+    if (val instanceof elementInstance) {
         return val;
     } else if (typeof val === 'string') {
         return val.split(/>>/g).reduce((pv, cv, ci, a) => {
