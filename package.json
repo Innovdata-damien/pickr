@@ -1,6 +1,6 @@
 {
-    "name": "@simonwep/pickr",
-    "version": "1.6.0",
+    "name": "@innovdata-damien/pickr",
+    "version": "1.6.1",
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
@@ -16,6 +16,9 @@
         "dev": "webpack-dev-server --mode development",
         "lint": "eslint ./src --fix",
         "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
     },
     "devDependencies": {
         "@babel/core": "^7.9.6",
@@ -41,13 +44,13 @@
         "webpack-dev-server": "^3.10.3",
         "webpack-fix-style-only-entries": "^0.4.0"
     },
-    "homepage": "https://github.com/Simonwep/pickr#readme",
+    "homepage": "https://github.com/Innovdata-damien/pickr#readme",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Simonwep/pickr.git"
+        "url": "https://github.com/Innovdata-damien/pickr.git"
     },
     "bugs": {
-        "url": "https://github.com/Simonwep/pickr/issues"
+        "url": "https://github.com/Innovdata-damien/pickr/issues"
     },
     "dependencies": {
         "core-js": "^3.6.5"
